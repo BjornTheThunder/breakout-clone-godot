@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bqieuy74wtnka"
+path="res://.godot/imported/This Sky of Mine.mp3-67776d8d51625fb12c1a8305c852857d.mp3str"
+
+[deps]
+
+source_file="res://music/This Sky of Mine.mp3"
+dest_files=["res://.godot/imported/This Sky of Mine.mp3-67776d8d51625fb12c1a8305c852857d.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

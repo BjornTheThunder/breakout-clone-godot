@@ -1,0 +1,64 @@
+[gd_scene load_steps=9 format=3 uid="uid://dgqphu1qlgr5k"]
+
+[ext_resource type="Script" path="res://scripts/background.gd" id="1_4wemw"]
+[ext_resource type="Texture2D" uid="uid://caqgvarsncuqd" path="res://art/breakout_bg.png" id="1_fiw3h"]
+[ext_resource type="Shader" path="res://shaders/distortion.gdshader" id="2_t3x11"]
+[ext_resource type="Texture2D" uid="uid://b7kobesijv546" path="res://art/fire/noise.png" id="4_7b08n"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t2ant"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vmm0l"]
+shader = ExtResource("2_t3x11")
+shader_parameter/refraction_stretch = Vector2(0.1, 0.1)
+shader_parameter/refraction_strength = 0.01
+shader_parameter/water_tint = Color(1, 0.56, 0.2, 0.0352941)
+shader_parameter/speed = 0.01
+shader_parameter/refraction_map = ExtResource("4_7b08n")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_feuwv"]
+size = Vector2(20, 1321)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0yqr0"]
+size = Vector2(1284, 20)
+
+[node name="Background" type="Node2D"]
+position = Vector2(639, 479)
+script = ExtResource("1_4wemw")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_t2ant")
+scale = Vector2(2.02469, 2.02469)
+texture = ExtResource("1_fiw3h")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_vmm0l")
+position = Vector2(0, -0.5)
+scale = Vector2(2, 2.00208)
+texture = ExtResource("1_fiw3h")
+
+[node name="BorderCollision" type="StaticBody2D" parent="."]
+collision_layer = 8
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BorderCollision"]
+position = Vector2(-649, 0)
+shape = SubResource("RectangleShape2D_feuwv")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="BorderCollision"]
+position = Vector2(650, 0)
+shape = SubResource("RectangleShape2D_feuwv")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="BorderCollision"]
+position = Vector2(-0.5, -489)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_feuwv")
+
+[node name="DeadZone" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeadZone"]
+position = Vector2(-1, 492)
+shape = SubResource("RectangleShape2D_0yqr0")
+
+[connection signal="body_entered" from="DeadZone" to="." method="_on_dead_zone_body_entered"]

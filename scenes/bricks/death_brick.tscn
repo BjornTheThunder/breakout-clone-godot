@@ -1,0 +1,251 @@
+[gd_scene load_steps=17 format=3 uid="uid://hlsd08su33bd"]
+
+[ext_resource type="Texture2D" uid="uid://cujevst2njl4o" path="res://art/16.png" id="1_c0js8"]
+[ext_resource type="Script" path="res://scripts/brick.gd" id="1_fncmm"]
+[ext_resource type="Texture2D" uid="uid://ds0i3f5mngo35" path="res://art/17.png" id="2_kddqt"]
+[ext_resource type="PackedScene" uid="uid://cle6n8eplqehr" path="res://scenes/powerups/death_ball_spawner.tscn" id="2_r7cnr"]
+[ext_resource type="Texture2D" uid="uid://dg5psltluyiyh" path="res://art/18.png" id="3_1io8h"]
+[ext_resource type="AudioStream" uid="uid://qcvmwbnyclcn" path="res://sounds/brick_of_death.wav" id="6_7qpge"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_30v7u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_c0js8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_kddqt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_1io8h")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gosrg"]
+size = Vector2(32, 32)
+
+[sub_resource type="Animation" id="Animation_y14is"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("GPUParticles2D:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("AudioStreamPlayer2D:playing")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_qrb7a"]
+resource_name = "death_animation"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(2, 2)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.69821]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("GPUParticles2D:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("AudioStreamPlayer2D:playing")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mf7p7"]
+_data = {
+"RESET": SubResource("Animation_y14is"),
+"death_animation": SubResource("Animation_qrb7a")
+}
+
+[sub_resource type="Gradient" id="Gradient_56gk2"]
+colors = PackedColorArray(0.65, 0, 1, 1, 0.416, 0, 0.64, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_0o6ob"]
+gradient = SubResource("Gradient_56gk2")
+
+[sub_resource type="Curve" id="Curve_mrq11"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_aqjri"]
+curve = SubResource("Curve_mrq11")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_o68ao"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_min = 40.0
+scale_max = 40.0
+scale_curve = SubResource("CurveTexture_aqjri")
+color_ramp = SubResource("GradientTexture1D_0o6ob")
+
+[node name="DeathBrick" type="StaticBody2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_fncmm")
+powerup_scene = ExtResource("2_r7cnr")
+spawn_probability = 100
+brick_health = 2
+points = 12
+camera_shake_power = 20
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_30v7u")
+frame = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_gosrg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_mf7p7")
+}
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 3
+process_material = SubResource("ParticleProcessMaterial_o68ao")
+lifetime = 0.5
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_7qpge")
+volume_db = -8.0

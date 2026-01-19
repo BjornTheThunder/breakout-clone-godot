@@ -1,0 +1,20 @@
+[gd_scene load_steps=9 format=3 uid="uid://bj80a8xlfgndc"]
+
+[ext_resource type="Script" path="res://scripts/brick_spawner.gd" id="1_c81uw"]
+[ext_resource type="PackedScene" uid="uid://bewpdr2u2nvh3" path="res://scenes/bricks/brick.tscn" id="2_biv4p"]
+[ext_resource type="PackedScene" uid="uid://bt84axtptb6ev" path="res://scenes/bricks/brick_stone.tscn" id="3_lih58"]
+[ext_resource type="PackedScene" uid="uid://uwoekvwnysss" path="res://scenes/bricks/health_powerup_brick.tscn" id="4_1juqd"]
+[ext_resource type="PackedScene" uid="uid://ungl75oe42xq" path="res://scenes/bricks/paddle_powerup_brick.tscn" id="5_l1wqq"]
+[ext_resource type="PackedScene" uid="uid://bgxfs4w8stu1" path="res://scenes/bricks/speed_brick.tscn" id="6_hd7kt"]
+[ext_resource type="PackedScene" uid="uid://bpmek7nhi28c1" path="res://scenes/bricks/fire_brick.tscn" id="7_cifwx"]
+[ext_resource type="PackedScene" uid="uid://hlsd08su33bd" path="res://scenes/bricks/death_brick.tscn" id="8_o0me7"]
+
+[node name="BrickSpawner" type="Node2D"]
+script = ExtResource("1_c81uw")
+brick_scene = ExtResource("2_biv4p")
+stone_brick_scene = ExtResource("3_lih58")
+health_brick_scene = ExtResource("4_1juqd")
+paddle_brick_scene = ExtResource("5_l1wqq")
+speed_brick_scene = ExtResource("6_hd7kt")
+fire_brick_scene = ExtResource("7_cifwx")
+death_brick_scene = ExtResource("8_o0me7")

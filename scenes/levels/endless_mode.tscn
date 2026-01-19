@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://cw3yvv57r1eat"]
+
+[ext_resource type="PackedScene" uid="uid://cytlv0ktj21h1" path="res://scenes/background_spawner.tscn" id="1_n7veu"]
+[ext_resource type="PackedScene" uid="uid://daq475fbhpaf7" path="res://scenes/paddle.tscn" id="2_r34xk"]
+[ext_resource type="PackedScene" uid="uid://rcaf4xt6ncpr" path="res://scenes/ball.tscn" id="3_jxffg"]
+[ext_resource type="PackedScene" uid="uid://bj80a8xlfgndc" path="res://scenes/bricks/brick_spawner.tscn" id="4_jf5r3"]
+
+[node name="Level1" type="Node"]
+
+[node name="background_spawner" parent="." instance=ExtResource("1_n7veu")]
+
+[node name="Paddle" parent="." instance=ExtResource("2_r34xk")]
+position = Vector2(640, 900)
+acceleration = 3000
+friction = 2500
+
+[node name="Ball" parent="." instance=ExtResource("3_jxffg")]
+position = Vector2(640, 826)
+
+[node name="BrickSpawner" parent="." instance=ExtResource("4_jf5r3")]
+position = Vector2(41, 85)
+columns = 38
+offset = 30

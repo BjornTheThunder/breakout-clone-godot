@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3 uid="uid://cr4kjkpyhsp2d"]
+
+[ext_resource type="Script" path="res://scripts/background.gd" id="1_lgbc0"]
+[ext_resource type="Texture2D" uid="uid://khvadipdn3sb" path="res://art/zeldalike_background.png" id="2_5y1me"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t2ant"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_feuwv"]
+size = Vector2(20, 1321)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0yqr0"]
+size = Vector2(1284, 20)
+
+[node name="Background" type="Node2D"]
+position = Vector2(639, 479)
+script = ExtResource("1_lgbc0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_t2ant")
+position = Vector2(-28, 0)
+scale = Vector2(1.6, 1.6)
+texture = ExtResource("2_5y1me")
+
+[node name="BorderCollision" type="StaticBody2D" parent="."]
+collision_layer = 8
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BorderCollision"]
+position = Vector2(-649, 0)
+shape = SubResource("RectangleShape2D_feuwv")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="BorderCollision"]
+position = Vector2(650, 0)
+shape = SubResource("RectangleShape2D_feuwv")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="BorderCollision"]
+position = Vector2(-0.5, -489)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_feuwv")
+
+[node name="DeadZone" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeadZone"]
+position = Vector2(-1, 492)
+shape = SubResource("RectangleShape2D_0yqr0")
+
+[connection signal="body_entered" from="DeadZone" to="." method="_on_dead_zone_body_entered"]

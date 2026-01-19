@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://bw0o6vt2oaedl"]
+
+[ext_resource type="Script" path="res://scripts/powerups/fire_ball.gd" id="1_ma0dn"]
+
+[sub_resource type="Gradient" id="Gradient_x15e3"]
+colors = PackedColorArray(1, 0.483333, 0, 1, 1, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_r1n1t"]
+gradient = SubResource("Gradient_x15e3")
+
+[sub_resource type="Curve" id="Curve_7cgf7"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_qv0un"]
+curve = SubResource("Curve_7cgf7")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kjnnw"]
+particle_flag_disable_z = true
+angle_min = -720.0
+angle_max = 720.0
+spread = 0.0
+gravity = Vector3(0, 98, 0)
+scale_min = 20.0
+scale_max = 20.0
+scale_curve = SubResource("CurveTexture_qv0un")
+scale_over_velocity_max = 91.4
+color_ramp = SubResource("GradientTexture1D_r1n1t")
+hue_variation_min = -2.23517e-08
+hue_variation_max = 0.05
+turbulence_enabled = true
+sub_emitter_mode = 1
+sub_emitter_frequency = 4.0
+sub_emitter_keep_velocity = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_d51ry"]
+radius = 9.0
+
+[node name="FireBall" type="Area2D"]
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("1_ma0dn")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+amount = 120
+process_material = SubResource("ParticleProcessMaterial_kjnnw")
+lifetime = 4.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_d51ry")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

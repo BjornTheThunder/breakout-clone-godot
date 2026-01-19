@@ -1,0 +1,74 @@
+[gd_scene load_steps=10 format=3 uid="uid://rcaf4xt6ncpr"]
+
+[ext_resource type="Script" path="res://scripts/ball.gd" id="1_a43jd"]
+[ext_resource type="Texture2D" uid="uid://d3h5e2jumm4d5" path="res://art/balls/50.png" id="1_fhpy0"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_xjj23"]
+friction = 0.0
+bounce = 1000.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0kbsa"]
+radius = 12.0
+
+[sub_resource type="Gradient" id="Gradient_ok25c"]
+colors = PackedColorArray(0, 0.8, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_mpta2"]
+gradient = SubResource("Gradient_ok25c")
+
+[sub_resource type="Curve" id="Curve_1kwl8"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.549451), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_rvcrc"]
+curve = SubResource("Curve_1kwl8")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7mmet"]
+lifetime_randomness = 0.3
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 14.0
+angle_min = -131.6
+angle_max = 209.0
+radial_velocity_min = 20.0
+radial_velocity_max = 20.0
+gravity = Vector3(60, -160, 0)
+scale_min = 4.0
+scale_max = 5.0
+scale_curve = SubResource("CurveTexture_rvcrc")
+color_ramp = SubResource("GradientTexture1D_mpta2")
+turbulence_enabled = true
+turbulence_noise_speed = Vector3(40, 0, 0)
+turbulence_influence_min = 0.115
+turbulence_influence_max = 0.217
+turbulence_initial_displacement_min = -13.1
+turbulence_initial_displacement_max = 21.2
+
+[node name="Ball" type="RigidBody2D"]
+collision_layer = 2
+collision_mask = 13
+mass = 0.001
+physics_material_override = SubResource("PhysicsMaterial_xjj23")
+gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 10
+script = ExtResource("1_a43jd")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_fhpy0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_0kbsa")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0.5, 0.5)
+scale = Vector2(0.75, 0.75)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 80
+process_material = SubResource("ParticleProcessMaterial_7mmet")
+lifetime = 3.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

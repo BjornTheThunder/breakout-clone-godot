@@ -1,0 +1,91 @@
+[gd_scene load_steps=8 format=3 uid="uid://d4c5ldovqncc7"]
+
+[ext_resource type="Texture2D" uid="uid://cwy2127mkssa0" path="res://art/43.png" id="1_al54a"]
+[ext_resource type="Script" path="res://scripts/powerups/speed_powerup.gd" id="1_y34id"]
+[ext_resource type="AudioStream" uid="uid://bsw4k13cjxy38" path="res://sounds/speed_up.wav" id="3_315fe"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tnkos"]
+radius = 20.025
+
+[sub_resource type="Animation" id="Animation_xlc8t"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_34gbb"]
+resource_name = "death_animation"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(2, 2)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_38nth"]
+_data = {
+"RESET": SubResource("Animation_xlc8t"),
+"death_animation": SubResource("Animation_34gbb")
+}
+
+[node name="SpeedPowerup" type="Area2D"]
+collision_layer = 16
+script = ExtResource("1_y34id")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_al54a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_tnkos")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_38nth")
+}
+speed_scale = 2.0
+
+[node name="PowerupSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_315fe")
+volume_db = 4.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

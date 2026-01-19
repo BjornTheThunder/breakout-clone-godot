@@ -1,0 +1,31 @@
+[gd_scene load_steps=7 format=3 uid="uid://cle6n8eplqehr"]
+
+[ext_resource type="Script" path="res://scripts/powerups/death_ball_spawner.gd" id="1_emt2g"]
+[ext_resource type="Texture2D" uid="uid://sxbj31jx0cti" path="res://art/1.png" id="2_k5ijv"]
+[ext_resource type="AudioStream" uid="uid://soh1i5s3ks6c" path="res://sounds/ghost.wav" id="3_oh1ka"]
+
+[sub_resource type="Curve" id="Curve_8pbq3"]
+_data = [Vector2(0, 0.351648), 0.0, 0.0, 0, 0, Vector2(1, 0.934066), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_opxu3"]
+curve = SubResource("Curve_8pbq3")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ojl6a"]
+particle_flag_disable_z = true
+angular_velocity_min = 147.09
+angular_velocity_max = 301.93
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_opxu3")
+color = Color(0.9545, 0.79, 1, 1)
+
+[node name="DeathBallSpawner" type="Node2D"]
+script = ExtResource("1_emt2g")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+amount = 3
+process_material = SubResource("ParticleProcessMaterial_ojl6a")
+texture = ExtResource("2_k5ijv")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_oh1ka")

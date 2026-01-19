@@ -1,0 +1,336 @@
+[gd_scene load_steps=15 format=3 uid="uid://r3fywb4bg5yi"]
+
+[ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_kssfp"]
+[ext_resource type="FontFile" uid="uid://l7131cjb8o1h" path="res://retro.ttf" id="2_g0cg8"]
+[ext_resource type="AudioStream" uid="uid://c6x26q6cdqx2g" path="res://sounds/brick_break.wav" id="3_t5t1p"]
+[ext_resource type="AudioStream" uid="uid://c5tlmbmexp7mx" path="res://music/ctr_ingame.mp3" id="4_pnlf8"]
+[ext_resource type="Script" path="res://scripts/camera_shake.gd" id="5_jljya"]
+[ext_resource type="AudioStream" uid="uid://dtaw2nokp7vw0" path="res://sounds/click.wav" id="6_t48ew"]
+[ext_resource type="AudioStream" uid="uid://ckokyy1doenk4" path="res://sounds/coin_sound.wav" id="7_scyfo"]
+
+[sub_resource type="Animation" id="Animation_f8hut"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_bh6dn"]
+resource_name = "score_animation"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_e31tu"]
+_data = {
+"RESET": SubResource("Animation_f8hut"),
+"score_animation": SubResource("Animation_bh6dn")
+}
+
+[sub_resource type="InputEventKey" id="InputEventKey_roql8"]
+device = -1
+keycode = 32
+unicode = 32
+
+[sub_resource type="Shortcut" id="Shortcut_xyl35"]
+events = [SubResource("InputEventKey_roql8")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_cf7um"]
+device = -1
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_thnmy"]
+events = [SubResource("InputEventKey_cf7um")]
+
+[node name="GameManager" type="Node"]
+process_mode = 3
+script = ExtResource("1_kssfp")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../HUD/MarginContainer")
+libraries = {
+"": SubResource("AnimationLibrary_e31tu")
+}
+speed_scale = 2.0
+
+[node name="HUD" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+
+[node name="Label" type="Label" parent="HUD/MarginContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_g0cg8")
+theme_override_font_sizes/font_size = 54
+text = "SCORE: 0"
+
+[node name="MarginContainer2" type="MarginContainer" parent="HUD"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+
+[node name="Label" type="Label" parent="HUD/MarginContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_g0cg8")
+theme_override_font_sizes/font_size = 54
+text = "LIVES: 6"
+
+[node name="GameOver" type="Control" parent="HUD"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="HUD/GameOver"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.396078)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/GameOver"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -206.5
+offset_top = -53.0
+offset_right = 206.5
+offset_bottom = 53.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="HUD/GameOver/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_g0cg8")
+theme_override_font_sizes/font_size = 84
+text = "GAME OVER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control2" type="Control" parent="HUD/GameOver/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="HighScore" type="Label" parent="HUD/GameOver/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_g0cg8")
+theme_override_font_sizes/font_size = 54
+text = "HIGH SCORE: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control3" type="Control" parent="HUD/GameOver/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="CoinLabel" type="Label" parent="HUD/GameOver/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_g0cg8")
+theme_override_font_sizes/font_size = 54
+text = "COINS: +0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="HUD/GameOver/VBoxContainer"]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+
+[node name="Button" type="Button" parent="HUD/GameOver/VBoxContainer"]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("2_g0cg8")
+theme_override_font_sizes/font_size = 54
+shortcut = SubResource("Shortcut_xyl35")
+text = "RESET"
+
+[node name="Control4" type="Control" parent="HUD/GameOver/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="ExitButton" type="Button" parent="HUD/GameOver/VBoxContainer"]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("2_g0cg8")
+theme_override_font_sizes/font_size = 54
+shortcut = SubResource("Shortcut_thnmy")
+text = "EXIT"
+
+[node name="ChangeLevelAnimation" type="Control" parent="HUD"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="HUD/ChangeLevelAnimation"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -101.0
+offset_top = -45.0
+offset_right = 101.0
+offset_bottom = -22.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_g0cg8")
+theme_override_font_sizes/font_size = 24
+text = "LEVEL CHANGE IMMINENT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimerLabel" type="Label" parent="HUD/ChangeLevelAnimation"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_g0cg8")
+theme_override_font_sizes/font_size = 34
+text = "00:00:00"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ChangeLevelTimer" type="Timer" parent="HUD/ChangeLevelAnimation"]
+wait_time = 15.0
+one_shot = true
+
+[node name="PauseMenu" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="PauseMenu"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.286275)
+
+[node name="MarginContainer" type="MarginContainer" parent="PauseMenu"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="PauseText" type="Label" parent="PauseMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_g0cg8")
+theme_override_font_sizes/font_size = 84
+text = "PAUSE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HighScoreText" type="Label" parent="PauseMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_g0cg8")
+theme_override_font_sizes/font_size = 54
+text = "HIGH SCORE: ???"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="PauseMenu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+
+[node name="Resume" type="Button" parent="PauseMenu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(400, 80)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_g0cg8")
+theme_override_font_sizes/font_size = 54
+text = "RESUME"
+
+[node name="Exit" type="Button" parent="PauseMenu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(400, 80)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_g0cg8")
+theme_override_font_sizes/font_size = 54
+text = "EXIT"
+
+[node name="BrickBreakSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_t5t1p")
+bus = &"Sound"
+
+[node name="MusicTheme" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_pnlf8")
+bus = &"Music"
+parameters/looping = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 480)
+script = ExtResource("5_jljya")
+
+[node name="ClickSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_t48ew")
+bus = &"Sound"
+
+[node name="CoinSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_scyfo")
+
+[connection signal="pressed" from="HUD/GameOver/VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="HUD/GameOver/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="timeout" from="HUD/ChangeLevelAnimation/ChangeLevelTimer" to="." method="_on_change_level_timer_timeout"]
+[connection signal="pressed" from="PauseMenu/MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="PauseMenu/MarginContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
